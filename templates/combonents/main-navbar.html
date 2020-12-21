@@ -4,8 +4,7 @@
 
 
 
-<nav
-    class="navbar fixed-top navbar-expand-xl pt-lg-0 pb-lg-0 navbar-dark
+<nav class="navbar fixed-top navbar-expand-xl pt-lg-0 pb-lg-0 navbar-dark
     {% if not request.resolver_match.url_name == 'home' %} nav-bg {% endif %} ">
 
     <div class="container-fluid">
@@ -195,7 +194,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'centre_news' %} active {% endif %}"
-                    aria-current="page" href="{% url 'orgs_our_news' %}"> {% trans 'أخبار البوابة' %} </a>
+                        aria-current="page" href="{% url 'orgs_our_news' %}"> {% trans 'أخبار البوابة' %} </a>
                 </li>
                 <li class="nav-item d-none d-xl-block">
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">|</a>
@@ -227,11 +226,11 @@
                                 href="{% url 'profile' %}"> {% trans 'لوحة التحكم الخاصة باﻹدارة' %} </a> -->
 
                             <a class="dropdown-item {% if request.resolver_match.url_name == 'profile' %} active {% endif %}"
-                                href="{% url 'profile' %}"> 
+                                href="{% url 'profile' %}">
                                 {% if request.user.is_superuser %}
                                 {% trans 'لوحة التحكم الخاصة باﻹدارة' %}
                                 {% else %}
-                                {% trans 'ملفي الشخصي' %} 
+                                {% trans 'ملفي الشخصي' %}
                                 {% endif %}
                             </a>
                         </li>
@@ -258,16 +257,16 @@
                     <ul class="dropdown-menu bg-main-color border-0" aria-labelledby="navbarDropdown">
                         {% if request.user.is_authenticated and not request.user.is_superuser %}
                         {% endif %}
-                            <li>
-                                <a class="dropdown-item {% if request.resolver_match.url_name == 'profile' %} active {% endif %}"
-                                    href="{% url 'profile' %}">
-                                    {% if request.user.is_superuser %}
-                                    {% trans 'لوحة التحكم الخاصة باﻹدارة' %}
-                                    {% else %}
-                                    {% trans 'ملفي الشخصي' %}
-                                    {% endif %}
-                                </a>
-                            </li>
+                        <li>
+                            <a class="dropdown-item {% if request.resolver_match.url_name == 'profile' %} active {% endif %}"
+                                href="{% url 'profile' %}">
+                                {% if request.user.is_superuser %}
+                                {% trans 'لوحة التحكم الخاصة باﻹدارة' %}
+                                {% else %}
+                                {% trans 'ملفي الشخصي' %}
+                                {% endif %}
+                            </a>
+                        </li>
                         <li>
                             <a class="dropdown-item {% if request.resolver_match.url_name == 'password_change' %} active {% endif %}"
                                 href="{% url 'password_change' %}"> {% trans 'تغيير كلمة المرور' %} </a>
@@ -304,7 +303,7 @@
                     </a>
                 </li> -->
                 {% else %}
-                <li class="nav-item">
+                <li class="nav-item mx-2">
                     <a class="nav-link {% if request.resolver_match.url_name == 'signe_in' %} active {% endif %}"
                         aria-current="page" href="{% url 'signe_in' %}"> {% trans 'تسجيل الدخول' %} </a>
                 </li>

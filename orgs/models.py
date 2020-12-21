@@ -1,3 +1,5 @@
+import PIL
+from django.core.files.storage import default_storage as storage
 from multiselectfield import MultiSelectField
 from django.db import models
 from django.conf import settings
@@ -24,8 +26,8 @@ class MyChoices(models.Model):
         ('IQ', _('العراق')),
         ('LB', _('لبنان')),
         ('JO', _('اﻷردن')),
-        ('SY', _('سوريا')),
         ('TR', _('تركيا')),
+        ('SY', _('سوريا')),
     )
 
     type_CHOICES = (
@@ -191,9 +193,11 @@ class MyChoices(models.Model):
         ('Education', _('تعليم')),
         ('Protection', _('حماية و الصحة النفسية')),
         ('Livelihoods and food security', _('سبل العيش واﻷمن الغذائي')),
-        ('Project of clean & water & sanitation ', _('النظافة والمياه والصرف الصحي')),
+        ('Project of clean & water & sanitation',
+         _('النظافة والمياه والصرف الصحي')),
         ('Development', _('تنمية و بناء قدرات و ثقافة')),
-        ('Law & suport & policy', _('المواطنة و الحوكمة و الديموقراطية و السلام و السياسة')),
+        ('Law & suport & policy', _(
+            'المواطنة و الحوكمة و الديموقراطية و السلام و السياسة')),
         ('Donors and support volunteering', _('اﻷسرة و الجندرة و قضايا المرأة')),
         ('Religious org', _('المأوى و البنة التحتية')),
         ('Prof association and assembles', _('تنسيق و تجمعات المجتمع المدني')),
@@ -455,20 +459,19 @@ class OrgProfile(models.Model):
     #     if self.work_domain:
     #         self.work_domain = eval(self.work_domain)
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        super().save(force_insert, force_update, using, update_fields)
-
-        img = Image.open(self.logo.path)
-
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            # basewidth = 300
-            img.thumbnail(output_size)
-            # img.thumbnail(basewidth)
-            img.save(self.logo.path)
-
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     super().save(force_insert, force_update, using, update_fields)
+    #     path = 'https://scgmedia.blob.core.windows.net/media'
+    #     img = Image.open(self.logo.path)
+    #     img = Image.open(self.logo.path)
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.logo.path)
 
 # :::::::::::: POSITION OF WORKS ::::::::::::::::::::::
+
+
 class Position(models.Model):
 
     user = models.ForeignKey(
@@ -515,20 +518,18 @@ class OrgNews(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        super().save(force_insert, force_update, using, update_fields)
-
-        img = Image.open(self.image.path)
-
-        if img.height > 1000 or img.width > 1000:
-            output_size = (1000, 1000)
-            # basewidth = 300
-            img.thumbnail(output_size)
-            # img.thumbnail(basewidth)
-            img.save(self.image.path)
-
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     super().save(force_insert, force_update, using, update_fields)
+    #     path = 'https://scgmedia.blob.core.windows.net/media'
+    #     img = Image.open(self.image.path)
+    #     if img.height > 1000 or img.width > 1000:
+    #         output_size = (1000, 1000)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
 
 # :::::::::: ORGS RAPPORT :::::::::::::::::
+
+
 class OrgRapport(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE)
@@ -552,15 +553,32 @@ class OrgRapport(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        super().save(force_insert, force_update, using, update_fields)
-        extension = os.path.splitext(self.media.name)
-        if not '.pdf' in list(extension):
-            img = Image.open(self.media.path)
-            if img.height > 1600 or img.width > 1600:
-                output_size = (1600, 1600)
-                img.thumbnail(output_size)
-                img.save(self.media.path)
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     super().save(force_insert, force_update, using, update_fields)
+    #     extension = os.path.splitext(self.media.name)
+    #     # path = 'https://scgmedia.blob.core.windows.net/media'
+    #     if not '.pdf' in list(extension):
+    #         img = Image.open(self.media)
+    #         if img.height > 1600 or img.width > 1600:
+    #             # output_size = (1600, 1600)
+    #             # img.thumbnail(output_size)
+    #             # print('=========', img)
+    #             # img.save(self.media.path)
+    #             # img.thumbnail(output_size, PIL.Image.ANTIALIAS)
+    #             # fh = storage.open(self.media.name, "wb")
+    #             # img.save(fh)
+    #             # fh.close()
+    #             img = Image.open(self.media)
+    #             resized_image = img.resize((1600, 1600), PIL.Image.ANTIALIAS)
+
+    #             fh = storage.open(self.media.name, "wb")
+    #             # picture_format = 'jpg'
+    #             resized_image.save(fh)
+    #             fh.close()
+
+    # def delete(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     self.media.delete()
+    #     super().delete(force_insert, force_update, using, update_fields)
 
 # :::::::::: ORGS DATA :::::::::::::::::
 
@@ -586,15 +604,16 @@ class OrgData(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        super().save(force_insert, force_update, using, update_fields)
-        extension = os.path.splitext(self.media.name)
-        if not '.pdf' in list(extension):
-            img = Image.open(self.media.path)
-            if img.height > 1600 or img.width > 1600:
-                output_size = (1600, 1600)
-                img.thumbnail(output_size)
-                img.save(self.media.path)
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     super().save(force_insert, force_update, using, update_fields)
+    #     extension = os.path.splitext(self.media.name)
+    #     path = 'https://scgmedia.blob.core.windows.net/media'
+    #     if not '.pdf' in list(extension):
+    #         img = Image.open(self.media.path)
+    #         if img.height > 1600 or img.width > 1600:
+    #             output_size = (1600, 1600)
+    #             img.thumbnail(output_size)
+    #             img.save(self.media.path)
 
 # :::::::::: ORGS MEDIA :::::::::::::::::
 
@@ -622,15 +641,16 @@ class OrgMedia(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        super().save(force_insert, force_update, using, update_fields)
-        extension = os.path.splitext(self.media.name)
-        if not '.pdf' in list(extension):
-            img = Image.open(self.media.path)
-            if img.height > 1600 or img.width > 1600:
-                output_size = (1600, 1600)
-                img.thumbnail(output_size)
-                img.save(self.media.path)
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     super().save(force_insert, force_update, using, update_fields)
+    #     extension = os.path.splitext(self.media.name)
+    #     path = 'https://scgmedia.blob.core.windows.net/media'
+    #     if not '.pdf' in list(extension):
+    #         img = Image.open(self.media.path)
+    #         if img.height > 1600 or img.width > 1600:
+    #             output_size = (1600, 1600)
+    #             img.thumbnail(output_size)
+    #             img.save(self.media.path)
 
 
 # :::::::::: ORGS RESEARCH :::::::::::::::::
@@ -663,15 +683,16 @@ class OrgResearch(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        super().save(force_insert, force_update, using, update_fields)
-        extension = os.path.splitext(self.media.name)
-        if not '.pdf' in list(extension):
-            img = Image.open(self.media.path)
-            if img.height > 1600 or img.width > 1600:
-                output_size = (1600, 1600)
-                img.thumbnail(output_size)
-                img.save(self.media.path)
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     super().save(force_insert, force_update, using, update_fields)
+    #     extension = os.path.splitext(self.media.name)
+    #     path = 'https://scgmedia.blob.core.windows.net/media'
+    #     if not '.pdf' in list(extension):
+    #         img = Image.open(self.media.path)
+    #         if img.height > 1600 or img.width > 1600:
+    #             output_size = (1600, 1600)
+    #             img.thumbnail(output_size)
+    #             img.save(self.media.path)
 
 
 # here is the sources of civiltey gate
@@ -693,13 +714,14 @@ class OtherOrgs(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        super().save(force_insert, force_update, using, update_fields)
-        img = Image.open(self.logo.path)
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.logo.path)
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     super().save(force_insert, force_update, using, update_fields)
+    #     path = 'https://scgmedia.blob.core.windows.net/media'
+    #     img = Image.open(self.logo.path)
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.logo.path)
 
 
 class OrgJob(models.Model):
@@ -748,6 +770,7 @@ class OrgJob(models.Model):
 
     # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
     #     super().save(force_insert, force_update, using, update_fields)
+    #     path = 'https://scgmedia.blob.core.windows.net/media'
     #     img = Image.open(self.logo.path)
     #     if img.height > 300 or img.width > 300:
     #         output_size = (300, 300)
@@ -809,13 +832,14 @@ class OrgFundingOpp(models.Model):
         else:
             return self.org_name
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        super().save(force_insert, force_update, using, update_fields)
-        img = Image.open(self.logo.path)
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.logo.path)
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     super().save(force_insert, force_update, using, update_fields)
+    #     path = 'https://scgmedia.blob.core.windows.net/media'
+    #     img = Image.open(self.logo.path)
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.logo.path)
 
 
 # Persons funding opportunities
@@ -884,13 +908,14 @@ class PersFundingOpp(models.Model):
         else:
             return self.org_name
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        super().save(force_insert, force_update, using, update_fields)
-        img = Image.open(self.logo.path)
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.logo.path)
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     super().save(force_insert, force_update, using, update_fields)
+    #     path = 'https://scgmedia.blob.core.windows.net/media'
+    #     img = Image.open(self.logo.path)
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.logo.path)
 
 
 # capacity buildinng for opportunities
@@ -1005,15 +1030,16 @@ class DevOrgOpp(models.Model):
         title_dev, extension = os.path.splitext(self.content.name)
         return self.extension
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        super().save(force_insert, force_update, using, update_fields)
-        extension = os.path.splitext(self.content.name)
-        if not '.pdf' in list(extension):
-            img = Image.open(self.content.path)
-            if img.height > 1600 or img.width > 1600:
-                output_size = (1600, 1600)
-                img.thumbnail(output_size)
-                img.save(self.content.path)
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     super().save(force_insert, force_update, using, update_fields)
+    #     extension = os.path.splitext(self.content.name)
+    #     path = 'https://scgmedia.blob.core.windows.net/media'
+    #     if not '.pdf' in list(extension):
+    #         img = Image.open(self.content.path)
+    #         if img.height > 1600 or img.width > 1600:
+    #             output_size = (1600, 1600)
+    #             img.thumbnail(output_size)
+    #             img.save(self.content.path)
 
 
 # News letter for members in our site

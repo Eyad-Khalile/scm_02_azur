@@ -42,10 +42,10 @@ from django.template import Context
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
+
 # ::::::::::::: SIGNE UP :::::::::::::::
-
-
 def signe_up(request):
+
     if request.user.is_authenticated and not request.user.is_superuser:
         return redirect('home')
     else:
@@ -65,7 +65,6 @@ def signe_up(request):
                 else:
                     user.is_active = False
                 user.save()
-                
 
                 if not request.user.is_superuser:
                     current_site = get_current_site(request)
@@ -147,8 +146,8 @@ def add_city(request):
             form.save()
             form = CityForm()
 
-            messages.success(
-                request, 'لقد تمت إضافة المحافظة بنجاح')
+            # messages.success(
+            #     request, 'لقد تمت إضافة المحافظة بنجاح')
 
             # return redirect('city')
     else:
@@ -562,6 +561,12 @@ def news_edit(request, news_id):
         if form.is_valid():
             at = form.save(commit=False)
             at.updated_at = datetime.utcnow()
+            prof_user = OrgProfile.objects.filter(user=request.user)
+            org_name = form.cleaned_data.get('org_name')
+            if org_name:
+                at.org_name = org_name
+            else:
+                at.org_name = prof_user.first()
             at.save()
 
             messages.success(request, _(
@@ -722,6 +727,39 @@ def orgs_rapport_detail(request, rapport_id):
     return render(request, 'orgs/rapport/detail_rapport.html', context)
 
 
+# UPDATE RAPPORT
+@login_required(login_url='signe_in')
+def edit_rapport(request, rapport_id):
+    rapport = get_object_or_404(OrgRapport, id=rapport_id)
+
+    if request.method == 'POST':
+        form = RapportForm(request.POST or None,
+                           files=request.FILES, instance=rapport)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.updated_at = datetime.utcnow()
+            prof_user = OrgProfile.objects.filter(user=request.user)
+            org_name = form.cleaned_data.get('org_name')
+            if org_name:
+                user.org_name = org_name
+            else:
+                user.org_name = prof_user.first()
+            user.save()
+
+            messages.success(request, _(
+                'لقد تمت تعديل التقرير بنجاح'))
+
+            return redirect('orgs_rapport')
+    else:
+        form = RapportForm(instance=rapport)
+
+    context = {
+        "rapport": rapport,
+        "form": form,
+    }
+    return render(request, 'orgs/rapport/edit_rapport.html', context)
+
+
 # DELETE RAPPORT
 @login_required(login_url='signe_in')
 def orgs_rapport_delete(request, rapport_id):
@@ -738,33 +776,6 @@ def orgs_rapport_delete(request, rapport_id):
         'rapport': rapport,
     }
     return render(request, 'orgs/rapport/delete_rapport.html', context)
-
-
-# UPDATE RAPPORT
-@login_required(login_url='signe_in')
-def edit_rapport(request, rapport_id):
-    rapport = get_object_or_404(OrgRapport, id=rapport_id)
-
-    if request.method == 'POST':
-        form = RapportForm(request.POST or None,
-                           files=request.FILES, instance=rapport)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.updated_at = datetime.utcnow()
-            user.save()
-
-            messages.success(request, _(
-                'لقد تمت تعديل التقرير بنجاح'))
-
-            return redirect('orgs_rapport')
-    else:
-        form = RapportForm(instance=rapport)
-
-    context = {
-        "rapport": rapport,
-        "form": form,
-    }
-    return render(request, 'orgs/rapport/edit_rapport.html', context)
 
 
 # ::::::::::: DATA :::::::::::::::
@@ -902,6 +913,12 @@ def edit_data(request, data_id):
         if form.is_valid():
             at = form.save(commit=False)
             at.updated = datetime.utcnow()
+            prof_user = OrgProfile.objects.filter(user=request.user)
+            org_name = form.cleaned_data.get('org_name')
+            if org_name:
+                at.org_name = org_name
+            else:
+                at.org_name = prof_user.first()
             at.save()
 
             messages.success(request, _(
@@ -1067,6 +1084,12 @@ def edit_media(request, media_id):
         if form.is_valid():
             at = form.save(commit=False)
             at.updated = datetime.utcnow()
+            prof_user = OrgProfile.objects.filter(user=request.user)
+            org_name = form.cleaned_data.get('org_name')
+            if org_name:
+                at.org_name = org_name
+            else:
+                at.org_name = prof_user.first()
             at.save()
 
             messages.success(request, _(
@@ -1309,19 +1332,18 @@ def contact(request):
 
         )
 
-        messages.success(request, 'لقد تم الارسال بنجاح و سيتم الرد باقرب وقت ممكن')
+        messages.success(
+            request, 'لقد تم الارسال بنجاح و سيتم الرد باقرب وقت ممكن')
         return redirect('home')
 
     else:
         form = ContactUsForm()
 
-    
     context = {
         'form': form,
     }
 
     return render(request, 'contact/contact.html', context)
-
 
 
 # Recourses of civilty this is the befor last tab
@@ -1394,7 +1416,7 @@ def orgs_add_job(request):
                     'لقد تمت إضافة فرصة العمل بنجاح و ستتم دراستها قريباً'))
 
                 return redirect('orgs_jobs')
-            
+
             elif other_org_name:
                 user.other_org_name = other_org_name
                 user.staff = request.user
@@ -1423,7 +1445,8 @@ def orgs_add_job(request):
             else:
                 # messages.error(request, _(
                 #     'يجب إدخال اسم منظمة لتتم معالجة و نشر فرصة العمل'))
-                request_org_name = OrgProfile.objects.filter(user=request.user).first()
+                request_org_name = OrgProfile.objects.filter(
+                    user=request.user).first()
                 user.org_name = request_org_name
                 user.save()
 
@@ -1532,7 +1555,6 @@ def jobs_edit(request, job_id):
         form_other = OtherOrgsForm(
             request.POST or None, files=request.FILES, instance=other)
 
-
         if form.is_valid() and form_other.is_valid():
 
             other_org_name = form_other.cleaned_data.get('name')
@@ -1553,12 +1575,9 @@ def jobs_edit(request, job_id):
                     'لقد تم تعديل فرصة العمل بنجاح'))
                 return redirect('orgs_jobs')
 
-
             else:
                 at.other_org_name = other
                 at.save()
-
-
 
             messages.success(request, _(
                 'لقد تم تعديل فرصة العمل بنجاح'))
@@ -1795,7 +1814,7 @@ def orgs_add_funding(request):
                     user.org_name = org_name
                 elif name_funding:
                     user.name_funding = name_funding
-                    
+
                 user.save()
 
                 messages.success(request, _(
@@ -2007,7 +2026,6 @@ def capacity_detail(request, capacity_id):
     capacites = OrgCapacityOpp.objects.filter(
         publish=True).order_by('-created_at')
     share_string = quote_plus(capacity.capacity_description)
-    
 
     if request.method == 'POST':
         form = CapacityConfirmForm(request.POST or None, instance=capacity)

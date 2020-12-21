@@ -4623,55 +4623,55 @@ readers do not read off random characters that represent icons */
   font-family: "Neo Sans Arabic Regular";
   font-style: normal;
   font-weight: normal;
-  src: local("Neo Sans Arabic Regular"), url(../dist/fonts/Neo-Sans-Arabic-Regular.woff) format("woff"); }
+  src: local("Neo Sans Arabic Regular"), url("https://scgmedia.blob.core.windows.net/static/dist%2F/fonts/neo-sans-arabic-cufonfonts-webfont/Neo-Sans-Arabic-Regular.woff") format("woff"); }
 
 @font-face {
   font-family: "Neo Sans Arabic Regular";
   font-style: normal;
   font-weight: normal;
-  src: local("Neo Sans Arabic Regular"), url(../dist/fonts/NeoSansArabic.woff) format("woff"); }
+  src: local("Neo Sans Arabic Regular"), url("https://scgmedia.blob.core.windows.net/static/dist%2F/fonts/neo-sans-arabic-cufonfonts-webfont/NeoSansArabic.woff") format("woff"); }
 
 @font-face {
   font-family: "Neo Sans Arabic Light";
   font-style: normal;
   font-weight: normal;
-  src: local("Neo Sans Arabic Light"), url(../dist/fonts/NeoSansArabicLight.woff) format("woff"); }
+  src: local("Neo Sans Arabic Light"), url("https://scgmedia.blob.core.windows.net/static/dist%2F/fonts/neo-sans-arabic-cufonfonts-webfont/NeoSansArabicLight.woff") format("woff"); }
 
 @font-face {
   font-family: "Neo Sans Arabic Medium";
   font-style: normal;
   font-weight: normal;
-  src: local("Neo Sans Arabic Medium"), url(../dist/fonts/NeoSansArabicMedium.woff) format("woff"); }
+  src: local("Neo Sans Arabic Medium"), url("https://scgmedia.blob.core.windows.net/static/dist%2F/fonts/neo-sans-arabic-cufonfonts-webfont/NeoSansArabicMedium.woff") format("woff"); }
 
 @font-face {
   font-family: "Neo Sans Arabic Bold";
   font-style: normal;
   font-weight: normal;
-  src: local("Neo Sans Arabic Bold"), url(../dist/fonts/NeoSansArabicBold.woff) format("woff"); }
+  src: local("Neo Sans Arabic Bold"), url("https://scgmedia.blob.core.windows.net/static/dist%2F/fonts/neo-sans-arabic-cufonfonts-webfont/NeoSansArabicBold.woff") format("woff"); }
 
 @font-face {
   font-family: "Neo Sans Arabic Black";
   font-style: normal;
   font-weight: normal;
-  src: local("Neo Sans Arabic Black"), url(../dist/fonts/NeoSansArabicBlack.woff) format("woff"); }
+  src: local("Neo Sans Arabic Black"), url("https://scgmedia.blob.core.windows.net/static/dist%2F/fonts/neo-sans-arabic-cufonfonts-webfont/NeoSansArabicBlack.woff") format("woff"); }
 
 @font-face {
   font-family: "Neo Sans Arabic Ultra";
   font-style: normal;
   font-weight: normal;
-  src: local("Neo Sans Arabic Ultra"), url(../dist/fonts/NeoSansArabicUltra.woff) format("woff"); }
+  src: local("Neo Sans Arabic Ultra"), url("https://scgmedia.blob.core.windows.net/static/dist%2F/fonts/neo-sans-arabic-cufonfonts-webfont/NeoSansArabicUltra.woff") format("woff"); }
 
 @font-face {
   font-family: "Neo Sans Medium";
   font-style: normal;
   font-weight: normal;
-  src: local("Neo Sans Medium"), url(../dist/fonts/Neo_Sans_Medium.woff) format("woff"); }
+  src: local("Neo Sans Medium"), url("https://scgmedia.blob.core.windows.net/static/dist%2F/fonts/neo-sans-arabic-cufonfonts-webfont/Neo_Sans_Medium.woff") format("woff"); }
 
 @font-face {
   font-family: "GretaArabic-Regular";
   font-style: normal;
   font-weight: normal;
-  src: local("GretaArabic-Regular"), url("../dist/fonts/Greta Arabic Regular.ttf") format("ttf"); }
+  src: local("GretaArabic-Regular"), url("https://scgmedia.blob.core.windows.net/static/dist%2F/fonts/Greta Arabic Regular/Greta Arabic Regular.ttf") format("ttf"); }
 
 /*!
  * Bootstrap v5.0.0-alpha1 (https://getbootstrap.com/)

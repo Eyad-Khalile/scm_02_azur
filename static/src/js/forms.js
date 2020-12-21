@@ -241,6 +241,7 @@ $("#chnage-lange").change(function () {
                 document.location.href = origin + "/en" + pathname;
             }
             break;
+
         case "ku":
             if (pathname.includes('/en')) {
                 document.location.href = origin + "/ku" + removeCharacter(pathname);
@@ -377,6 +378,7 @@ $('#id_org_name').change(function () {
             $('#div_id_other_org_name, #div_id_name, #div_id_logo').hide();
             break;
     }
+
 });
 
 $('#id_other_org_name').change(function () {
