@@ -212,9 +212,6 @@ class OrgProfileForm(forms.ModelForm):
             self.fields['user'].queryset = User.objects.filter(
                 id__in=def_user)
 
-    
-            
-        
     # user unique
     # def clean_email(self):
     #     user = self.cleaned_data.get('user_id')
@@ -409,25 +406,25 @@ class JobsForm(forms.ModelForm):
             'dead_date',
         ]
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields['city_work'].queryset = City.objects.none()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['city_work'].queryset = City.objects.none()
 
-            if 'position_work' in self.data:
-                try:
-                    position_work = self.data.get('position_work')
-                    self.fields['city_work'].queryset = City.objects.filter(
-                        position_work=position_work)
-                except (ValueError, TypeError):
-                    pass  # invalid input from the client; ignore and fallback to empty City queryset
-
-            elif self.instance.pk and self.instance.city_work:
-                position_work = self.instance.position_work
+        if 'position_work' in self.data:
+            try:
+                position_work = self.data.get('position_work')
                 self.fields['city_work'].queryset = City.objects.filter(
                     position_work=position_work)
+            except (ValueError, TypeError):
+                pass  # invalid input from the client; ignore and fallback to empty City queryset
 
-            elif self.instance.pk and not self.instance.city_work:
-                self.fields['city_work'].queryset = City.objects.all()
+        elif self.instance.pk and self.instance.city_work:
+            position_work = self.instance.position_work
+            self.fields['city_work'].queryset = City.objects.filter(
+                position_work=position_work)
+
+        elif self.instance.pk and not self.instance.city_work:
+            self.fields['city_work'].queryset = City.objects.all()
 
 
 class JobsConfirmForm(forms.ModelForm):
@@ -687,6 +684,7 @@ class FriendInviteForm(forms.ModelForm):
             'name',
             'email',
         ]
+
 
 class ContactUsForm(forms.Form):
     contact_name = forms.CharField(max_length=255, label='', widget=forms.TextInput(
